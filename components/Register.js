@@ -9,12 +9,24 @@ const Register = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showIndicator, setShowIndicator] = useState(false);
+
+  const signUp = () =>{
+    
+  }
   
   return (
     <SafeAreaView style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Enter Your Name"
+        placeholderTextColor="black"
+        value={name}
+        onChangeText={text => setName(text)}        
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Email"
         placeholderTextColor="black"
         value={email}
         inputMode='email-address'
@@ -22,32 +34,30 @@ const Register = ({navigation}) => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Enter Password"
         placeholderTextColor="black"
         value={password}
         secureTextEntry={true}
         onChangeText={text => setPassword(text)}        
       />
+      
+      <View style={{marginBottom: wp(10)}}></View>
 
-      <Text 
-      onPress={() => navigation.navigate('ForgotPassword')}
-      style={{textDecorationLine: 'underline',color: 'blue', marginTop: hp(2), fontSize: wp(4)}}>
-      Forgot Password?</Text>
-
-      <Pressable onPress={() => signIn()}>
+      
+      <Pressable underlayColor='transparent' onPress={() => signUp()}>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>Sign in</Text>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </View>
       </Pressable>
       
       <Text style={{marginTop: wp(7), fontSize: wp(4)}}>
-        Don't have an account? <Text onPress={() => navigation.navigate('Register')} style={{textDecorationLine: 'underline', color: 'blue'}}>Sign Up</Text>
+        Already have an Account? <Text onPress={() => navigation.navigate('Login')} style={{textDecorationLine: 'underline', color: 'blue'}}>Log In</Text>
       </Text>
 
       <ActivityIndicator
         size="large"
-        color="green
-        animating={showIndicator}"
+        color="green"
+        animating={showIndicator}
         style={styles.indicator}
       />
     </SafeAreaView>
