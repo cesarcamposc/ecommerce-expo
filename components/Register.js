@@ -1,8 +1,9 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { createNewUser } from '../utilityFunctions'
 
 const Register = ({navigation}) => {
 
@@ -11,8 +12,22 @@ const Register = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [showIndicator, setShowIndicator] = useState(false);
 
-  const signUp = () =>{
-    
+  useEffect(()=>{
+    const unsubscribe = navigation.addListener('focus',()=>{
+      setName('');
+      setEmail('');
+      setPassword('');
+    });
+    return unsubscribe;
+  },[navigation])
+
+  const signUp = async() =>{
+    setShowIndicator(true);
+    const result = await createNewUser(name, email, password);
+    setShowIndicator(false);
+    if(result.status === true){
+      navigation.navigate('Tabs')
+    }    
   }
   
   return (

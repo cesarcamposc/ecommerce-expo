@@ -1,8 +1,9 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { login } from '../utilityFunctions'
 
 const Login = ({navigation}) => {
 
@@ -10,10 +11,25 @@ const Login = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [showIndicator, setShowIndicator] = useState(false);
 
-  const signIn = () => {
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setEmail("");
+      setPassword("");
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  const signIn = async () => {
+    setShowIndicator(true);
+    const result = await login( email, password);
     setShowIndicator(false);
-    // Implement sign-in logic here
-  }
+    if (result.status === true) {
+      navigation.navigate("Tabs");
+    }
+    else{
+      window.alert(result.output)
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
