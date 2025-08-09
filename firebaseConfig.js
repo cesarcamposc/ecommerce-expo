@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 
-import { browserLocalPersistence, initializeAuth, setPersistence } from "firebase/auth";
+import { browserLocalPersistence, getReactNativePersistence, initializeAuth } from "firebase/auth";
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Platform } from "react-native";
@@ -25,16 +25,14 @@ const app = initializeApp(firebaseConfig);
 
 let auth;
 if(Platform.OS === 'android'){
-    auth = initializeAuth(app);
-    setPersistence(auth, {
-        type: 'LOCAL',
-        storage: AsyncStorage,
+    auth = initializeAuth(app,{
+        persistence: getReactNativePersistence(AsyncStorage)
     });    
 }else{
-    auth = initializeAuth(app);
-    setPersistence(auth, browserLocalPersistence);
+    auth = initializeAuth(app,{
+        persistence: browserLocalPersistence
+    });
 }
-
 const db = initializeFirestore(app,{
     experimentalForceLongPolling: true,
 })

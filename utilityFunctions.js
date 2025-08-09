@@ -56,3 +56,11 @@ const login = async (email, password) => {
 const Logout = async ()=>{
     await auth.signOut();
 }
+
+export { createNewUser, login, Logout };
+
+// Function to get the current authenticated user
+const getCurrentUser = () => {
+    return auth.currentUser;
+}
+export { getCurrentUser };

@@ -26,7 +26,12 @@ const Register = ({navigation}) => {
     const result = await createNewUser(name, email, password);
     setShowIndicator(false);
     if(result.status === true){
-      navigation.navigate('Tabs')
+      setName('');
+      setEmail('');
+      setPassword('');
+      navigation.navigate('Tabs');
+    }else{
+      window.alert(result.output);
     }    
   }
   
